@@ -254,8 +254,8 @@ func (e *Exporter) Collect(ch chan<- prometheus.Metric) {
 
 		e.nextMetadataRefresh = now.Add(e.metadataRefreshInterval)
 	} else {
-		plog.Infof("not refresh and fetch new data before %s", e.nextMetadataRefresh)
-		return
+		plog.Infof("fetch freq should not be more than %v, will sleep 2 seconds", e.metadataRefreshInterval)
+		time.Sleep(time.Duration(time.Duration.Seconds(2)))
 	}
 
 	topics, err := e.client.Topics()
