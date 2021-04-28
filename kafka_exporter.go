@@ -253,6 +253,9 @@ func (e *Exporter) Collect(ch chan<- prometheus.Metric) {
 		}
 
 		e.nextMetadataRefresh = now.Add(e.metadataRefreshInterval)
+	} else {
+		plog.Infof("not refresh and fetch new data before %s", e.nextMetadataRefresh)
+		return
 	}
 
 	topics, err := e.client.Topics()
